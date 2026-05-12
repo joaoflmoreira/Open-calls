@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Open Calls — Artes Performativas</title>
+<meta name="description" content="Calendário curado de open calls em artes performativas: nacional (PT), municipal, internacional/Europa e residências." />
+<meta property="og:title" content="Open Calls — Artes Performativas" />
+<meta property="og:description" content="Concursos, bolsas e residências para teatro, dança, performance e circo. Atualizado regularmente." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #faf8f5;
+    --panel: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e8e4dc;
+    --accent: #b8541f;
+    --accent-soft: #fdf1e9;
+    --good: #2f7a4f;
+    --warn: #b8541f;
+    --past: #999;
+    --tag-bg: #f1ede4;
+    --tag-ink: #4a4a4a;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--ink); margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.5; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  header { margin-bottom: 20px; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .updated { display: inline-flex; gap: 8px; align-items: center; padding: 4px 10px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; font-size: 12px; font-weight: 500; margin-top: 10px; }
+
+  .nav { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin: 24px 0 16px; flex-wrap: wrap; }
+  .nav button { background: none; border: none; padding: 10px 14px; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; }
+  .nav button.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .nav button:hover:not(.active) { color: var(--ink); }
+  .nav .count { font-size: 11px; color: var(--muted); background: var(--tag-bg); padding: 1px 7px; border-radius: 10px; margin-left: 6px; font-weight: 500; }
+
+  .filters { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; font-size: 13px; }
+  .filters label { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); cursor: pointer; }
+  .filters input[type="checkbox"] { accent-color: var(--accent); }
+  .filters select { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; font-size: 13px; font-family: inherit; color: var(--ink); }
+  .filters .spacer { flex: 1; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 14px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px; }
+  .card.past { opacity: 0.55; }
+  .card .top { display: flex; gap: 8px; align-items: flex-start; justify-content: space-between; }
+  .card h3 { font-size: 15px; font-weight: 600; margin: 0; line-height: 1.35; letter-spacing: -0.005em; }
+  .card .org { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .card .desc { font-size: 13px; color: #333; }
+  .card .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 11px; padding: 2px 7px; background: var(--tag-bg); color: var(--tag-ink); border-radius: 4px; font-weight: 500; }
+  .deadline { font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .deadline.upcoming { background: #eaf5ee; color: var(--good); }
+  .deadline.soon { background: #fdf1e9; color: var(--warn); }
+  .deadline.rolling { background: #eef2fb; color: #4259a8; }
+  .deadline.passed { background: #efefef; color: var(--past); }
+  .card a.link { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 500; margin-top: 2px; }
+  .card a.link:hover { text-decoration: underline; }
+  .card .meta { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+
+  footer { margin-top: 36px; padding: 18px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; font-size: 12px; color: var(--muted); }
+  footer h4 { font-size: 13px; color: var(--ink); margin: 0 0 8px; font-weight: 600; }
+  footer p { margin: 6px 0; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .sources { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px 14px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Open Calls — Artes Performativas</h1>
+    <div class="sub">Concursos, bolsas e residências para teatro, dança, performance, circo e cruzamento disciplinar.</div>
+    <div class="updated">Atualizado em <span id="updatedAt"></span></div>
+  </header>
+
+  <nav class="nav" id="tabs"></nav>
+
+  <div class="filters">
+    <label><input type="checkbox" id="hidePast" checked /> Esconder prazos passados</label>
+    <label>Ordenar por
+      <select id="sortBy">
+        <option value="deadline-asc">Prazo (mais próximo)</option>
+        <option value="deadline-desc">Prazo (mais longe)</option>
+        <option value="name">Nome</option>
+      </select>
+    </label>
+    <div class="spacer"></div>
+    <div id="filterCount" style="color: var(--muted); font-size: 12px;"></div>
+  </div>
+
+  <main id="content"></main>
+
+  <footer>
+    <h4>Sobre este calendário</h4>
+    <p>Os dados foram recolhidos por pesquisa web no dia indicado em cima. Esta página é estática — para refrescar a lista com novos concursos e prazos, peça ao Claude "atualiza o calendário de open calls".</p>
+    <p>Como esta página vive numa sandbox local sem acesso aos sites das instituições, não é possível auto-refrescar diretamente. Para isso, podemos: (a) agendar uma tarefa semanal que peça ao Claude para reconstruir esta página; (b) adicionar os domínios das fontes em <em>Settings → Capabilities</em>, permitindo refresh em vivo.</p>
+    <h4 style="margin-top: 14px;">Fontes consultadas</h4>
+    <div class="sources" id="sourcesList"></div>
+  </footer>
+</div>
+
+<script>
+// ---------- DATA ----------
+// Hand-curated from web search results. Each entry uses ISO YYYY-MM-DD for deadlines.
+// "rolling" = no fixed deadline; "annual" = recurring, verify current year.
+const UPDATED_AT = "2026-05-12";
+
+const CALLS = {
+  nacional: [
+    {
+      title: "Programa de Apoio a Projetos — Edição (Artes Performativas, Artes Visuais, Artes de Rua, Cruzamento Disciplinar)",
+      org: "DGARTES",
+      desc: "Concurso anual de edição editorial e fonográfica ligada às artes. Prazo prolongado.",
+      deadline: "2026-04-02",
+      tags: ["Edição", "Multidisciplinar"],
+      url: "https://www.dgartes.gov.pt/pt/apoio/9488"
+    },
+    {
+      title: "Programa de Apoio a Projetos — Programação (Circo, Dança, Música, Ópera, Teatro, Artes de Rua)",
+      org: "DGARTES",
+      desc: "Apoio à programação de entidades nas artes performativas. Verificar avisos atuais.",
+      deadline: "annual",
+      tags: ["Programação", "Performativas"],
+      url: "https://www.dgartes.gov.pt/pt/vnode/1"
+    },
+    {
+      title: "Programa de Apoio a Projetos — Internacionalização",
+      org: "DGARTES",
+      desc: "Apoio à circulação internacional de projetos artísticos portugueses.",
+      deadline: "annual",
+      tags: ["Internacionalização"],
+      url: "https://www.dgartes.gov.pt/pt/vnode/1"
+    },
+    {
+      title: "Outros Formatos V — Convocatória para Criação nas Artes Performativas",
+      org: "DGARTES",
+      desc: "Convocatória para criação em formatos não-convencionais nas artes performativas.",
+      deadline: "annual",
+      tags: ["Criação", "Performativas"],
+      url: "https://www.dgartes.gov.pt/pt/node/9536"
+    },
+    {
+      title: "Rede de Teatros e Cineteatros Portugueses — Apoio à Programação 2026-2029",
+      org: "DGARTES",
+      desc: "Concurso limitado para apoio plurianual à programação da Rede de Teatros.",
+      deadline: "rolling",
+      tags: ["Programação", "Rede"],
+      url: "https://www.dgartes.gov.pt/pt/apoio/8869"
+    },
+    {
+      title: "Programa de Apoio Sustentado às Artes 2025-2026",
+      org: "DGARTES",
+      desc: "Apoio bienal a entidades coletivas privadas com pelo menos 4 anos de atividade profissional (circo, dança, música, ópera, teatro).",
+      deadline: "annual",
+      tags: ["Sustentado", "Bienal"],
+      url: "https://www.dgartes.gov.pt/pt/node/7334"
+    },
+    {
+      title: "Apoio à Criação Artística 2026",
+      org: "Fundação Calouste Gulbenkian",
+      desc: "Apoios a projetos de criação artística em dança, teatro e novo circo. Patamares de 4.000€, 8.000€, 12.000€ e 16.000€.",
+      deadline: "2026-03-06",
+      tags: ["Criação", "Performativas"],
+      url: "https://gulbenkian.pt/apoios-lista/apoio-a-criacao-artistica/"
+    },
+    {
+      title: "Bolsas Formação em Artes no Estrangeiro",
+      org: "Fundação Calouste Gulbenkian",
+      desc: "Apoio à formação académica e técnica em artes no estrangeiro (artes visuais, dança, teatro, cinema, música).",
+      deadline: "2026-04-30",
+      tags: ["Bolsa", "Formação"],
+      url: "https://gulbenkian.pt/bolsas-lista/formacao-em-artes-no-estrangeiro/"
+    },
+    {
+      title: "Apoio à Internacionalização (Circulação Internacional)",
+      org: "Fundação Calouste Gulbenkian",
+      desc: "Apoio à apresentação de projetos artísticos portugueses no estrangeiro.",
+      deadline: "rolling",
+      tags: ["Internacionalização"],
+      url: "https://gulbenkian.pt/apoios-lista/apoio-a-circulacao-internacional/"
+    },
+    {
+      title: "Scaling Up — Convite à apresentação de projetos (Artes Performativas)",
+      org: "Culturgest (Fundação CGD)",
+      desc: "Apoio a criações teatrais e coreográficas de grande escala (salas de 400+ lugares, orçamento >100.000€). Para 2027/2028.",
+      deadline: "2026-09-28",
+      tags: ["Grande Escala", "Performativas"],
+      url: "https://www.culturgest.pt/pt/programacao/convite-apresentacao-de-projetos-artes-performativas/"
+    },
+    {
+      title: "Caixa Cultura — Programa de Apoios",
+      org: "Caixa Geral de Depósitos",
+      desc: "Apoios financeiros à criação artística em teatro, dança, música, performance e outras áreas.",
+      deadline: "annual",
+      tags: ["Apoio", "Multidisciplinar"],
+      url: "https://www.cgd.pt/Institucional/Caixa-Cultura/Pages/Caixa-Cultura.aspx"
+    },
+    {
+      title: "Bolsas Jovens Criadores 2026",
+      org: "Direção-Geral da Política Cultural",
+      desc: "Bolsas para residentes em Portugal até 30 anos nas Artes do Espetáculo (Teatro, Dança) e Artes Visuais.",
+      deadline: "2026-04-30",
+      tags: ["Bolsa", "Jovens"],
+      url: "https://www.dgartes.gov.pt/pt/taxonomy/term/123"
+    },
+    {
+      title: "Apoio à Circulação de Espetáculos 2026",
+      org: "Fundação GDA",
+      desc: "Apoio à circulação de espetáculos de teatro e dança. €350.000 (valor provisório).",
+      deadline: "2026-02-27",
+      tags: ["GDA", "Circulação"],
+      url: "https://www.fundacaogda.pt/criacao-e-producao/circulacao-de-espetaculos/"
+    },
+    {
+      title: "Apoio a Espetáculos de Teatro e Dança 2026",
+      org: "Fundação GDA",
+      desc: "Concurso anual de apoio à criação e produção de espetáculos de teatro e dança.",
+      deadline: "2026-05-08",
+      tags: ["GDA", "Teatro", "Dança"],
+      url: "https://www.fundacaogda.pt/concursos-2026-consulte-as-datas/"
+    },
+    {
+      title: "Apoio à Edição Fonográfica de Intérprete 2026",
+      org: "Fundação GDA",
+      desc: "€700.000 totais para apoio à edição fonográfica de intérpretes.",
+      deadline: "2026-04-03",
+      tags: ["GDA", "Música"],
+      url: "https://www.fundacaogda.pt/criacao-e-producao/edicao-fonografica-de-interprete/"
+    },
+    {
+      title: "Apoio à Formação Internacional 2026",
+      org: "Fundação GDA",
+      desc: "Programa rolling até esgotar verba (€160.000 totais). Máx. €2.500 presencial / €750 online.",
+      deadline: "2026-11-15",
+      tags: ["GDA", "Formação", "Internacional"],
+      url: "https://www.fundacaogda.pt/apoio-formacao-internacional-2026/"
+    },
+    {
+      title: "Apoio a Curtas-metragens 2026",
+      org: "Fundação GDA",
+      desc: "Concurso anual de apoio à produção de curtas-metragens.",
+      deadline: "2026-09-18",
+      tags: ["GDA", "Cinema"],
+      url: "https://www.fundacaogda.pt/concursos-2026-consulte-as-datas/"
+    },
+    {
+      title: "Bolsas INATEL de Apoio à Criação Artística Local",
+      org: "Fundação INATEL",
+      desc: "Bolsas em parceria com festivais como o Imaginarius. Concursos e prémios INATEL Cultura.",
+      deadline: "annual",
+      tags: ["INATEL", "Local"],
+      url: "https://www.inatel.pt/pt/servicos/inatel-cultura/concursos-e-premios/"
+    },
+    {
+      title: "ART'INATEL — Residências Artísticas",
+      org: "Fundação INATEL",
+      desc: "Programa de residências artísticas em parceria com municípios e estruturas locais.",
+      deadline: "annual",
+      tags: ["INATEL", "Residência"],
+      url: "https://www.inatel.pt/pt/servicos/inatel-cultura/art-inatel-residencias-artisticas/"
+    }
+  ],
+
+  municipal: [
+    {
+      title: "Gaivotas no Pátio 2026",
+      org: "CM Lisboa — Polo Cultural Gaivotas | Boavista",
+      desc: "Programa de verão com convocatória pública para propostas artísticas em circo, dança, música e teatro.",
+      deadline: "annual",
+      tags: ["Lisboa", "Performativas"],
+      url: "https://informacao.lisboa.pt/en/schedule/municipal/seagulls-in-the-patio-2026"
+    },
+    {
+      title: "Apoios e Financiamentos — Polo Cultural Gaivotas",
+      org: "CM Lisboa",
+      desc: "Diretório de apoios municipais e parcerias com outras entidades para o setor cultural lisboeta.",
+      deadline: "rolling",
+      tags: ["Lisboa", "Recurso"],
+      url: "http://www.cm-lisboa.pt/polo-cultural-gaivotas-boavista/apoios-e-financiamentos/outras-entidades"
+    },
+    {
+      title: "Apoios do Município de Lisboa",
+      org: "CM Lisboa",
+      desc: "Portal central de atribuição de apoios pelo Município de Lisboa (cultura, social, etc.).",
+      deadline: "rolling",
+      tags: ["Lisboa"],
+      url: "https://informacoeseservicos.lisboa.pt/servicos/detalhe/atribuicao-de-apoios-pelo-municipio-de-lisboa"
+    },
+    {
+      title: "Criatório 2026",
+      org: "CM Porto / Ágora",
+      desc: "€495.000 totais: 17 bolsas de €15.000 (Criação e Investigação) + 12 bolsas de €20.000 (Espaços de Programação). Artes visuais, performativas, música.",
+      deadline: "2026-03-30",
+      tags: ["Porto", "Bolsa", "Performativas"],
+      url: "https://plaka.porto.pt/pt/criatorio/"
+    },
+    {
+      title: "Cultura em Expansão 2026",
+      org: "CM Porto / Ágora",
+      desc: "€245.000 para 18 novas criações em três modalidades: cocriação comunitária (anual €15k / bienal €30k) e criação participada (€8k).",
+      deadline: "2026-03-27",
+      tags: ["Porto", "Comunitário"],
+      url: "https://www.agoraporto.pt/noticias/cultura-em-expansao-lanca-convocatoria-para-projetos-a-integrar-programa-de-apoios-em-2026"
+    },
+    {
+      title: "Programa de Incentivo e Apoio às Artes Performativas",
+      org: "CM Sintra",
+      desc: "Candidaturas ao programa municipal de apoio às artes performativas no concelho de Sintra.",
+      deadline: "annual",
+      tags: ["Sintra", "Performativas"],
+      url: "https://cm-sintra.pt/atualidade/cultura/aviso-candidaturas-ao-programa-de-incentivo-e-apoio-as-artes-performativas-no-concelho-de-sintra"
+    },
+    {
+      title: "PAMACS — Programa de Apoio ao Movimento Associativo Cultural",
+      org: "CM Sintra",
+      desc: "Apoios ao tecido associativo cultural do concelho de Sintra.",
+      deadline: "annual",
+      tags: ["Sintra", "Associativo"],
+      url: "https://cm-sintra.pt/institucional/formularios/formularios-cultura"
+    },
+    {
+      title: "Festival dos Capuchos 2026",
+      org: "CM Almada / AML",
+      desc: "Festival de Música dos Capuchos. Programa anual com propostas musicais e performativas (mai-jun).",
+      deadline: "annual",
+      tags: ["Almada", "Música"],
+      url: "https://www.aml.pt/agenda/festival-dos-capuchos-2026/"
+    }
+  ],
+
+  internacional: [
+    {
+      title: "Creative Europe — 2026 European Cooperation Projects",
+      org: "Comissão Europeia (EACEA)",
+      desc: "Projetos de cooperação europeia (small, medium, large scale). €380M de orçamento global Creative Europe 2026.",
+      deadline: "annual",
+      tags: ["Cooperação", "EU"],
+      url: "https://culture.ec.europa.eu/funding/calls/2026-european-cooperation-projects"
+    },
+    {
+      title: "Perform Europe 2026-2028",
+      org: "Creative Europe",
+      desc: "€2M para artes performativas com foco em sustentabilidade, condições justas de trabalho e inclusão. Apoia tournées e distribuição.",
+      deadline: "2026-01-15",
+      tags: ["Performativas", "Tournée"],
+      url: "https://creativesunite.eu/synm/program.php?id=2625"
+    },
+    {
+      title: "Culture Moves Europe — Individual Mobility 2025-2026",
+      org: "Creative Europe / Goethe-Institut",
+      desc: "Bolsas de mobilidade individual (7-60 dias) ou em grupo (7-21 dias, até 5 pessoas). Prazos mensais até abril 2026.",
+      deadline: "2026-04-30",
+      tags: ["Mobilidade", "Individual"],
+      url: "https://culture.ec.europa.eu/culture-moves-europe/call-for-individual-mobility"
+    },
+    {
+      title: "Roberto Cimetta Fund — Mobility Grants",
+      org: "Fonds Roberto Cimetta",
+      desc: "Bolsas de mobilidade para artistas e profissionais culturais na região Euro-Mediterrânica e mundo árabe (artes performativas e visuais). Seleções a cada 5-6 semanas.",
+      deadline: "rolling",
+      tags: ["Mobilidade", "Mediterrâneo"],
+      url: "https://www.cimettafund.org/en/mobility-grants/"
+    },
+    {
+      title: "On the Move — Mobility Funding Guides",
+      org: "On the Move",
+      desc: "Diretório atualizado de bolsas e fundos de mobilidade para o setor cultural em toda a Europa.",
+      deadline: "rolling",
+      tags: ["Recurso", "Mobilidade"],
+      url: "https://on-the-move.org/funding"
+    }
+  ],
+
+  residencias: [
+    {
+      title: "Culture Moves Europe — Residency Hosts 2025-2026",
+      org: "Creative Europe",
+      desc: "Bolsas para anfitriões de residências em arquitetura, dança, música, teatro, literatura e mais. Open 15 dez 2025 — 16 mar 2026.",
+      deadline: "2026-03-16",
+      tags: ["Internacional", "Anfitrião"],
+      url: "https://culture.ec.europa.eu/culture-moves-europe/call-for-residency-hosts"
+    },
+    {
+      title: "ZARATAN AIR 2026",
+      org: "Zaratan – Arte Contemporânea (Lisboa)",
+      desc: "Programa de residências para artistas internacionais ou portugueses residentes no estrangeiro.",
+      deadline: "2026-02-28",
+      tags: ["Portugal", "Internacional"],
+      url: "https://www.dgartes.gov.pt/pt/noticia/9446"
+    },
+    {
+      title: "Residências Artísticas Online 2026",
+      org: "balleteatro (Porto)",
+      desc: "Investigação e documentação de processos de criação em dança, teatro e performance. 3 bolsas de €700.",
+      deadline: "annual",
+      tags: ["Portugal", "Online", "Investigação"],
+      url: "https://culturaportugal.gov.pt/pt/criar/apoios/diversos-2025/residencias-artisticas-online-2026/"
+    },
+    {
+      title: "VAGABUNDAS — Residências Mercedes Blasco 2026",
+      org: "VAGABUNDAS (Portugal)",
+      desc: "Residências dirigidas a artistas portuguesas ou residentes em Portugal de teatro e artes performativas (criação no feminino).",
+      deadline: "2026-02-28",
+      tags: ["Portugal", "Teatro", "Feminino"],
+      url: "https://www.dgartes.gov.pt/pt/taxonomy/term/123"
+    },
+    {
+      title: "CAMPUS Paulo Cunha e Silva 2025/2026",
+      org: "Câmara Municipal do Porto",
+      desc: "18 residências artísticas + 3 residências técnicas para a temporada 2025/2026.",
+      deadline: "2026-04-05",
+      tags: ["Portugal", "Porto"],
+      url: "https://pportodosmuseus.pt/2025/03/12/candidaturas-abertas-para-residencias-artisticas-e-tecnicas-no-campus-paulo-cunha-e-silva/"
+    },
+    {
+      title: "25AV Residency Program 2026-2027",
+      org: "Onassis Foundation + parceiros (GR, CZ, BE, IT, DE)",
+      desc: "Residências em Athens (Onassis Stegi), Brno (Vitamin), Bruxelas (iMAL), Milão (Triennale) e Munique (Lothringer 13 Halle). Até 3 projetos colaborativos por período.",
+      deadline: "annual",
+      tags: ["Europa", "Colaborativo"],
+      url: "https://www.onassis.org/open-calls-past/open-call-25av-residency-program-20262027"
+    },
+    {
+      title: "Citofonare PimOff 2026",
+      org: "PimOff Theatre (Milão, IT)",
+      desc: "Residência de pesquisa coreográfica (até 10 dias entre fevereiro e abril 2026). 11ª edição.",
+      deadline: "annual",
+      tags: ["Itália", "Dança"],
+      url: "https://on-the-move.org/news/pimoff-theatre-citofonare-pimoff-residency-programme-contemporary-dance-and-performance-2026"
+    },
+    {
+      title: "DancEUA Artist-in-Residence",
+      org: "Vitlycke-CPA (Suécia)",
+      desc: "Duas residências por ano (2025-2027) para artistas emergentes da Ucrânia, Suécia, Croácia, Roménia e Hungria. Spring (2 semanas) + Autumn (3 semanas).",
+      deadline: "annual",
+      tags: ["Suécia", "Dança"],
+      url: "https://vitlycke.org/open-calls"
+    },
+    {
+      title: "Mediterranean Dance Center — Programa 2026",
+      org: "MPC (Svetvinčent, Croácia)",
+      desc: "Dança contemporânea, teatro físico, artes performativas e formas híbridas ligadas ao movimento.",
+      deadline: "annual",
+      tags: ["Croácia", "Dança"],
+      url: "https://on-the-move.org/disciplines/performing-arts"
+    },
+    {
+      title: "Res Artis — Open Calls",
+      org: "Res Artis (rede global)",
+      desc: "Diretório global de residências artísticas com open calls atualizadas.",
+      deadline: "rolling",
+      tags: ["Recurso", "Global"],
+      url: "https://resartis.org/open-calls/"
+    },
+    {
+      title: "TransArtists",
+      org: "DutchCulture | TransArtists",
+      desc: "Plataforma com mais de 1.500 residências mapeadas em todo o mundo.",
+      deadline: "rolling",
+      tags: ["Recurso", "Global"],
+      url: "https://www.transartists.org/en"
+    }
+  ]
+};
+
+const SECTIONS = [
+  { id: "nacional", label: "Nacional (Portugal)" },
+  { id: "municipal", label: "Municipal / Câmaras" },
+  { id: "internacional", label: "Internacional / Europa" },
+  { id: "residencias", label: "Residências" }
+];
+
+const SOURCES = [
+  ["DGARTES", "https://www.dgartes.gov.pt/pt/vnode/1"],
+  ["Fundação Gulbenkian — Apoios", "https://gulbenkian.pt/apoios-lista/"],
+  ["Fundação GDA — Concursos 2026", "https://www.fundacaogda.pt/concursos-2026-consulte-as-datas/"],
+  ["Fundação INATEL — Concursos", "https://www.inatel.pt/pt/servicos/inatel-cultura/concursos-e-premios/"],
+  ["Culturgest", "https://www.culturgest.pt/"],
+  ["Caixa Cultura (CGD)", "https://www.cgd.pt/Institucional/Caixa-Cultura/Pages/Caixa-Cultura.aspx"],
+  ["CM Lisboa — Polo Gaivotas", "http://www.cm-lisboa.pt/polo-cultural-gaivotas-boavista/apoios-e-financiamentos/outras-entidades"],
+  ["CM Porto — Criatório", "https://plaka.porto.pt/pt/criatorio/"],
+  ["CM Sintra — Cultura", "https://cm-sintra.pt/institucional/formularios/formularios-cultura"],
+  ["Creative Europe — Calls", "https://culture.ec.europa.eu/funding/calls"],
+  ["Culture Moves Europe", "https://culture.ec.europa.eu/culture-moves-europe"],
+  ["Perform Europe", "https://creativesunite.eu/synm/program.php?id=2625"],
+  ["Roberto Cimetta Fund", "https://www.cimettafund.org/en/mobility-grants/"],
+  ["On the Move", "https://on-the-move.org/funding"],
+  ["Res Artis", "https://resartis.org/open-calls/"],
+  ["TransArtists", "https://www.transartists.org/"]
+];
+
+// ---------- STATE ----------
+const state = {
+  tab: localStorage.getItem("oc_tab") || "nacional",
+  hidePast: JSON.parse(localStorage.getItem("oc_hidePast") ?? "true"),
+  sortBy: localStorage.getItem("oc_sortBy") || "deadline-asc"
+};
+
+// ---------- HELPERS ----------
+function todayISO() {
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+function deadlineMeta(deadline) {
+  if (deadline === "rolling") return { label: "Rolling", cls: "rolling", sortKey: 99999, past: false };
+  if (deadline === "annual") return { label: "Anual / verificar", cls: "rolling", sortKey: 99998, past: false };
+  const today = new Date(todayISO());
+  const d = new Date(deadline);
+  const days = Math.round((d - today) / 86400000);
+  if (days < 0) return { label: "Encerrado", cls: "passed", sortKey: -1, past: true };
+  if (days <= 21) return { label: `Faltam ${days}d (${formatDate(deadline)})`, cls: "soon", sortKey: days, past: false };
+  return { label: formatDate(deadline), cls: "upcoming", sortKey: days, past: false };
+}
+function formatDate(iso) {
+  const months = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  const [y,m,d] = iso.split("-");
+  return `${parseInt(d,10)} ${months[parseInt(m,10)-1]} ${y}`;
+}
+
+// ---------- RENDER ----------
+function renderTabs() {
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = SECTIONS.map(s => {
+    const n = CALLS[s.id].length;
+    return `<button data-tab="${s.id}" class="${state.tab===s.id?"active":""}">${s.label}<span class="count">${n}</span></button>`;
+  }).join("");
+  tabsEl.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    state.tab = b.dataset.tab;
+    localStorage.setItem("oc_tab", state.tab);
+    renderTabs();
+    renderSection();
+  }));
+}
+
+function renderSection() {
+  const items = (CALLS[state.tab] || []).map(c => ({ ...c, meta: deadlineMeta(c.deadline) }));
+  let filtered = state.hidePast ? items.filter(c => !c.meta.past) : items;
+  if (state.sortBy === "deadline-asc") filtered.sort((a,b) => a.meta.sortKey - b.meta.sortKey);
+  else if (state.sortBy === "deadline-desc") filtered.sort((a,b) => b.meta.sortKey - a.meta.sortKey);
+  else if (state.sortBy === "name") filtered.sort((a,b) => a.title.localeCompare(b.title, "pt"));
+
+  document.getElementById("filterCount").textContent = `${filtered.length} de ${items.length}`;
+
+  const content = document.getElementById("content");
+  if (filtered.length === 0) {
+    content.innerHTML = `<div class="empty">Sem resultados nesta secção com os filtros atuais.</div>`;
+    return;
+  }
+  content.innerHTML = `<div class="cards">${filtered.map(c => `
+    <article class="card ${c.meta.past ? "past" : ""}">
+      <div class="top">
+        <div>
+          <h3>${escapeHtml(c.title)}</h3>
+          <div class="org">${escapeHtml(c.org)}</div>
+        </div>
+        <span class="deadline ${c.meta.cls}">${escapeHtml(c.meta.label)}</span>
+      </div>
+      <div class="desc">${escapeHtml(c.desc)}</div>
+      <div class="tags">${(c.tags||[]).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
+      <a class="link" href="${escapeAttr(c.url)}" target="_blank" rel="noopener">Ver no site oficial →</a>
+    </article>
+  `).join("")}</div>`;
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
+function escapeAttr(s) { return escapeHtml(s); }
+
+// ---------- INIT ----------
+document.getElementById("updatedAt").textContent = formatDate(UPDATED_AT);
+
+const hidePastEl = document.getElementById("hidePast");
+hidePastEl.checked = state.hidePast;
+hidePastEl.addEventListener("change", () => {
+  state.hidePast = hidePastEl.checked;
+  localStorage.setItem("oc_hidePast", JSON.stringify(state.hidePast));
+  renderSection();
+});
+
+const sortEl = document.getElementById("sortBy");
+sortEl.value = state.sortBy;
+sortEl.addEventListener("change", () => {
+  state.sortBy = sortEl.value;
+  localStorage.setItem("oc_sortBy", state.sortBy);
+  renderSection();
+});
+
+document.getElementById("sourcesList").innerHTML = SOURCES.map(([name, url]) =>
+  `<a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(name)}</a>`
+).join("");
+
+renderTabs();
+renderSection();
+</script>
+</body>
+</html>
