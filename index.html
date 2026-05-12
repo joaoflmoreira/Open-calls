@@ -12,115 +12,148 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: light;
-    --bg: #ede4d0;
-    --paper: #f4ebd6;
-    --ink: #1c1611;
-    --muted: #7a6e57;
-    --soft: #a1947a;
-    --line: #cabd9f;
-    --line-soft: #ddd0b1;
-    --accent: #a8341c;
-    --accent-soft: #d96a4f;
-    --highlight: #f5da6c;
+    --bg: #f8f5ec;
+    --paper: #ffffff;
+    --ink: #0e0d0a;
+    --muted: #6e6757;
+    --soft: #a8a08e;
+    --line: #e5dfd1;
+    --line-soft: #efeadd;
+
+    --c-nacional: #e84d2e;
+    --c-nacional-soft: #ffe1d8;
+    --c-municipal: #e5a020;
+    --c-municipal-soft: #fdedc8;
+    --c-internacional: #2563eb;
+    --c-internacional-soft: #dbe7ff;
+    --c-residencias: #c44893;
+    --c-residencias-soft: #f8dcee;
+
+    --urgent: #e84d2e;
+    --warn: #e5a020;
+    --ok: #15803d;
+    --neutral: #6e6757;
+    --pass: #c8c2b5;
+
+    --c-active: var(--c-nacional);
+    --c-active-soft: var(--c-nacional-soft);
   }
   * { box-sizing: border-box; }
-  html, body { background: var(--bg); color: var(--ink); margin: 0; padding: 0; font-family: 'Inter', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.55; font-size: 16px; }
-  body {
-    background-image:
-      radial-gradient(circle at 20% 10%, rgba(168,52,28,0.05), transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(28,22,17,0.04), transparent 50%);
-    background-attachment: fixed;
-  }
-  ::selection { background: var(--highlight); color: var(--ink); }
+  html, body { background: var(--bg); color: var(--ink); margin: 0; padding: 0; font-family: 'Inter', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.5; font-size: 16px; font-feature-settings: "cv11", "ss01", "ss03"; }
+  ::selection { background: #fff09a; color: var(--ink); }
+  body[data-tab="nacional"] { --c-active: var(--c-nacional); --c-active-soft: var(--c-nacional-soft); }
+  body[data-tab="municipal"] { --c-active: var(--c-municipal); --c-active-soft: var(--c-municipal-soft); }
+  body[data-tab="internacional"] { --c-active: var(--c-internacional); --c-active-soft: var(--c-internacional-soft); }
+  body[data-tab="residencias"] { --c-active: var(--c-residencias); --c-active-soft: var(--c-residencias-soft); }
 
-  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 32px 100px; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 40px 28px 80px; }
 
   /* HEADER */
-  header { margin-bottom: 56px; position: relative; }
-  .eyebrow { font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-weight: 500; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
-  .eyebrow::before { content: ""; display: inline-block; width: 28px; height: 1px; background: var(--ink); }
-  h1 { font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: clamp(44px, 7vw, 76px); line-height: 0.95; letter-spacing: -0.025em; margin: 0 0 18px; font-variation-settings: "opsz" 144; }
-  h1 .it { font-style: italic; font-weight: 400; color: var(--accent); }
-  h1 .am { font-style: italic; font-weight: 400; }
-  .lede { font-family: 'Fraunces', Georgia, serif; font-size: 20px; line-height: 1.45; max-width: 580px; color: var(--ink); font-weight: 400; font-style: italic; margin: 0 0 24px; font-variation-settings: "opsz" 14; }
-  .colophon { display: flex; gap: 18px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.04em; padding-top: 16px; border-top: 1px solid var(--line); }
-  .colophon strong { color: var(--ink); font-weight: 500; }
+  header { margin-bottom: 48px; position: relative; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-weight: 600; margin-bottom: 18px; }
+  .eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-active); transition: background 0.25s ease; }
+  h1 { font-weight: 800; font-size: clamp(40px, 6.5vw, 64px); line-height: 1.02; letter-spacing: -0.035em; margin: 0 0 18px; }
+  h1 .accent { color: var(--c-active); transition: color 0.25s ease; }
+  .lede { font-size: 17px; line-height: 1.5; max-width: 580px; color: var(--muted); margin: 0 0 24px; font-weight: 400; }
+  .colophon { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--muted); padding: 12px 0; border-top: 1px solid var(--line); }
+  .colophon strong { color: var(--ink); font-weight: 600; }
 
   /* NAV */
-  .nav-wrap { margin: 48px 0 24px; }
-  .nav { display: flex; flex-wrap: wrap; gap: 0; font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 500; border-bottom: 2px solid var(--ink); padding-bottom: 12px; align-items: baseline; }
-  .nav button { background: none; border: none; padding: 4px 16px 4px 0; color: var(--soft); cursor: pointer; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; text-transform: inherit; position: relative; transition: color 0.15s ease; }
-  .nav button:not(:last-child)::after { content: "·"; display: inline-block; margin-left: 16px; color: var(--line); }
-  .nav button:hover { color: var(--ink); }
-  .nav button.active { color: var(--accent); font-weight: 600; }
-  .nav button .count { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 400; margin-left: 4px; color: var(--muted); letter-spacing: 0; }
-  .nav button.active .count { color: var(--accent); }
+  .nav-wrap { margin: 32px 0 8px; }
+  .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav button { background: var(--paper); border: 1.5px solid var(--line); padding: 9px 16px 9px 14px; color: var(--ink); cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s ease; }
+  .nav button .swatch { width: 9px; height: 9px; border-radius: 50%; }
+  .nav button:hover { border-color: var(--ink); }
+  .nav button.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .nav button .count { font-size: 11px; opacity: 0.55; font-weight: 500; }
+  .nav button[data-tab="nacional"] .swatch { background: var(--c-nacional); }
+  .nav button[data-tab="municipal"] .swatch { background: var(--c-municipal); }
+  .nav button[data-tab="internacional"] .swatch { background: var(--c-internacional); }
+  .nav button[data-tab="residencias"] .swatch { background: var(--c-residencias); }
 
   /* FILTERS */
-  .filters { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 32px; padding-bottom: 14px; border-bottom: 1px solid var(--line-soft); }
-  .filters label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
-  .filters input[type="checkbox"] { accent-color: var(--accent); width: 13px; height: 13px; }
-  .filters select { background: transparent; border: none; border-bottom: 1px dotted var(--soft); padding: 2px 18px 2px 4px; font-family: inherit; font-size: inherit; color: var(--ink); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%237a6e57' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
-  .filters select:focus { outline: none; border-bottom-color: var(--accent); }
-  .filters .count { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .filters { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 24px 0 28px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .filters label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .filters input[type="checkbox"] { accent-color: var(--c-active); width: 14px; height: 14px; }
+  .filters select { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 5px 26px 5px 10px; font-family: inherit; font-size: 13px; color: var(--ink); cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236e6757' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  .filters select:focus { outline: 2px solid var(--c-active); outline-offset: 1px; }
+  .filters .count { margin-left: auto; font-size: 12px; font-weight: 500; }
 
   /* ENTRIES */
-  main { margin-top: 8px; }
-  .entry { display: grid; grid-template-columns: 130px 1fr; gap: 32px; padding: 28px 0 30px; border-bottom: 1px solid var(--line-soft); align-items: start; }
-  .entry:first-child { padding-top: 16px; }
+  main { margin-top: 0; }
+  .entry { display: grid; grid-template-columns: 110px 1fr; gap: 28px; padding: 22px 0 24px; border-bottom: 1px solid var(--line-soft); align-items: start; }
+  .entry:first-child { padding-top: 8px; }
   .entry.past { opacity: 0.4; }
-  .entry .when { font-family: 'Fraunces', Georgia, serif; line-height: 1; padding-top: 4px; font-variation-settings: "opsz" 144; }
-  .entry .when .day { display: block; font-size: 38px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; }
-  .entry .when .month-year { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink); margin-top: 8px; }
-  .entry .when .left { display: block; font-family: 'Inter', sans-serif; font-style: normal; font-size: 11px; color: var(--accent); margin-top: 6px; font-weight: 500; letter-spacing: 0.04em; }
-  .entry .when.rolling .day, .entry .when.annual .day { font-style: italic; font-size: 24px; color: var(--muted); font-weight: 400; padding-top: 6px; }
-  .entry .when.passed .day { font-size: 24px; color: var(--soft); font-style: italic; padding-top: 6px; }
+  .entry .when { padding-top: 4px; }
+  .entry .when .day { display: inline-block; font-size: 32px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; color: var(--c-active); padding: 2px 8px; background: var(--c-active-soft); border-radius: 6px; }
+  .entry .when .month-year { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink); margin-top: 10px; }
+  .entry .when .left { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 600; color: #fff; padding: 2px 8px; border-radius: 999px; }
+  .entry .when.soon .left { background: var(--urgent); }
+  .entry .when.upcoming .left { background: var(--ok); }
+  .entry .when.rolling .day, .entry .when.annual .day { font-size: 16px; padding: 5px 10px; background: #efeadd; color: var(--muted); font-weight: 600; }
+  .entry .when.passed .day { font-size: 14px; padding: 4px 10px; background: #ece7d8; color: var(--soft); font-weight: 500; }
 
-  .entry .body h3 { font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 500; line-height: 1.2; letter-spacing: -0.012em; margin: 0 0 6px; color: var(--ink); font-variation-settings: "opsz" 36; }
-  .entry .body .org { font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-weight: 500; margin-bottom: 14px; }
-  .entry .body .desc { font-family: 'Fraunces', Georgia, serif; font-size: 16px; line-height: 1.5; color: var(--ink); margin-bottom: 14px; max-width: 56ch; font-variation-settings: "opsz" 14; }
+  .entry .body h3 { font-size: 18px; font-weight: 700; line-height: 1.3; letter-spacing: -0.012em; margin: 0 0 4px; color: var(--ink); }
+  .entry .body .org { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  .entry .body .desc { font-size: 14.5px; line-height: 1.55; color: #2b271f; margin-bottom: 12px; max-width: 62ch; }
   .entry .body .meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-  .entry .body .tags { display: flex; gap: 0; flex-wrap: wrap; font-family: 'Inter', sans-serif; font-size: 11px; color: var(--muted); }
-  .entry .body .tags span { letter-spacing: 0.04em; }
-  .entry .body .tags span:not(:last-child)::after { content: " · "; color: var(--line); }
-  .entry .body .link { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--accent); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--accent-soft); padding-bottom: 1px; transition: all 0.15s ease; }
-  .entry .body .link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .entry .body .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .entry .body .tags span { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--c-active-soft); color: var(--c-active); font-weight: 600; }
+  .entry .body .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .entry .body .actions a { font-size: 12px; font-weight: 600; text-decoration: none; padding: 5px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease; }
+  .entry .body .actions a.link-primary { background: var(--ink); color: #fff; }
+  .entry .body .actions a.link-primary:hover { background: var(--c-active); }
+  .entry .body .actions a.link-cal { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .entry .body .actions a.link-cal:hover { color: var(--ink); border-color: var(--ink); background: #fff; }
 
-  .empty { text-align: center; padding: 60px 20px; font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 18px; color: var(--muted); }
+  .empty { text-align: center; padding: 50px 20px; font-size: 15px; color: var(--muted); }
+
+  /* NEWSLETTER */
+  .newsletter { margin: 64px 0 24px; padding: 32px 28px; background: var(--ink); color: #fff; border-radius: 14px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; align-items: center; position: relative; overflow: hidden; }
+  .newsletter::before { content: ""; position: absolute; right: -40px; top: -40px; width: 160px; height: 160px; background: var(--c-active); border-radius: 50%; opacity: 0.5; filter: blur(20px); pointer-events: none; transition: background 0.25s ease; }
+  .newsletter h2 { margin: 0 0 8px; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+  .newsletter p { margin: 0; font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.75); max-width: 38ch; }
+  .newsletter .cta { display: flex; gap: 8px; justify-content: flex-end; position: relative; z-index: 1; }
+  .newsletter .cta a { background: #fff; color: var(--ink); padding: 12px 18px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.15s ease; }
+  .newsletter .cta a:hover { transform: translateY(-1px); }
+  .newsletter .cta a .arrow { transition: transform 0.15s ease; }
+  .newsletter .cta a:hover .arrow { transform: translateX(3px); }
+  .newsletter .pending { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
 
   /* FOOTER */
-  footer { margin-top: 80px; padding-top: 32px; border-top: 2px solid var(--ink); font-family: 'Inter', sans-serif; }
-  footer h4 { font-family: 'Inter', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink); margin: 0 0 12px; font-weight: 600; }
-  footer p { font-family: 'Fraunces', Georgia, serif; font-size: 15px; line-height: 1.55; color: var(--ink); margin: 8px 0; max-width: 60ch; font-style: italic; font-variation-settings: "opsz" 14; }
-  footer a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s ease; }
-  footer a:hover { border-bottom-color: var(--accent); }
-  .sources { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 4px 24px; margin-top: 8px; font-size: 13px; }
-  .sources a { display: block; padding: 4px 0; color: var(--ink); border-bottom: none; }
-  .sources a:hover { color: var(--accent); }
-  .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 24px; }
-  .footer-end { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--soft); margin-top: 40px; text-align: center; }
+  footer { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+  footer h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink); margin: 0 0 12px; font-weight: 700; }
+  footer p { font-size: 13.5px; line-height: 1.55; color: var(--muted); margin: 8px 0; max-width: 62ch; }
+  footer a { color: var(--ink); text-decoration: none; font-weight: 500; border-bottom: 1px solid var(--line); transition: border-color 0.15s ease; }
+  footer a:hover { border-bottom-color: var(--c-active); }
+  .sources { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 4px 24px; margin-top: 8px; font-size: 13px; }
+  .sources a { display: block; padding: 4px 0; border-bottom: none; color: var(--muted); }
+  .sources a:hover { color: var(--c-active); border: none; }
+  .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 12px; }
+  .footer-end { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--soft); margin-top: 40px; text-align: center; font-weight: 500; }
 
   /* MOBILE */
-  @media (max-width: 640px) {
-    .wrap { padding: 32px 20px 60px; }
-    h1 { font-size: 48px; }
-    .entry { grid-template-columns: 90px 1fr; gap: 20px; }
-    .entry .when .day { font-size: 28px; }
-    .entry .body h3 { font-size: 20px; }
+  @media (max-width: 720px) {
+    .wrap { padding: 28px 18px 60px; }
+    h1 { font-size: 38px; }
+    .entry { grid-template-columns: 84px 1fr; gap: 16px; }
+    .entry .when .day { font-size: 26px; }
+    .entry .body h3 { font-size: 17px; }
+    .newsletter { grid-template-columns: 1fr; padding: 24px 20px; }
+    .newsletter .cta { justify-content: flex-start; }
     .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-    .colophon { flex-wrap: wrap; gap: 8px; }
   }
 </style>
 </head>
-<body>
+<body data-tab="nacional">
 <div class="wrap">
   <header>
-    <div class="eyebrow">um calendário</div>
-    <h1>Open <span class="am">calls</span> em artes <span class="it">performativas</span></h1>
+    <div class="eyebrow"><span class="dot"></span> Um calendário</div>
+    <h1>Open calls em<br/>artes <span class="accent">performativas</span></h1>
     <p class="lede">Concursos, bolsas e residências — teatro, dança, performance, circo e cruzamento disciplinar. Curado à mão, atualizado quando faz sentido.</p>
     <div class="colophon">
       <span><strong>Edição</strong> <span id="updatedAt"></span></span>
@@ -147,6 +180,16 @@
 
   <main id="content"></main>
 
+  <section class="newsletter">
+    <div>
+      <h2>Boletim mensal</h2>
+      <p>Uma vez por mês, um email com as novas open calls e os prazos a chegar. Clica no botão e envia-me um email — adiciono-te à lista.</p>
+    </div>
+    <div class="cta">
+      <a id="newsletterLink" href="#">Quero subscrever <span class="arrow">✉</span></a>
+    </div>
+  </section>
+
   <footer>
     <div class="footer-grid">
       <div>
@@ -164,6 +207,17 @@
 </div>
 
 <script>
+// ---------- CONFIG ----------
+// Newsletter: visitor clicks → email client opens → they email you to subscribe.
+// You manually keep a BCC list and send the monthly update from your own inbox.
+// To change the destination email, just edit NEWSLETTER_EMAIL below.
+const NEWSLETTER_EMAIL = "joaoflmoreira@gmail.com";
+const NEWSLETTER_SUBJECT = "Subscrever boletim Open Calls";
+const NEWSLETTER_BODY = "Olá!\n\nGostaria de receber o boletim mensal com novas open calls em artes performativas.\n\nObrigado(a).";
+const NEWSLETTER_URL = NEWSLETTER_EMAIL
+  ? `mailto:${NEWSLETTER_EMAIL}?subject=${encodeURIComponent(NEWSLETTER_SUBJECT)}&body=${encodeURIComponent(NEWSLETTER_BODY)}`
+  : "";
+
 // ---------- DATA ----------
 const UPDATED_AT = "2026-05-12";
 
@@ -187,13 +241,21 @@ const CALLS = {
     { title: "Apoio à Formação Internacional 2026", org: "Fundação GDA", desc: "Programa rolling até esgotar verba (€160.000 totais). Máx. €2.500 presencial / €750 online.", deadline: "2026-11-15", tags: ["GDA", "Formação"], url: "https://www.fundacaogda.pt/apoio-formacao-internacional-2026/" },
     { title: "Apoio a Curtas-metragens 2026", org: "Fundação GDA", desc: "Concurso anual de apoio à produção de curtas-metragens.", deadline: "2026-09-18", tags: ["GDA", "Cinema"], url: "https://www.fundacaogda.pt/concursos-2026-consulte-as-datas/" },
     { title: "Bolsas INATEL de Apoio à Criação Artística Local", org: "Fundação INATEL", desc: "Bolsas em parceria com festivais como o Imaginarius. Concursos e prémios INATEL Cultura.", deadline: "annual", tags: ["INATEL", "Local"], url: "https://www.inatel.pt/pt/servicos/inatel-cultura/concursos-e-premios/" },
-    { title: "ART'INATEL — Residências Artísticas", org: "Fundação INATEL", desc: "Programa de residências artísticas em parceria com municípios e estruturas locais.", deadline: "annual", tags: ["INATEL", "Residência"], url: "https://www.inatel.pt/pt/servicos/inatel-cultura/art-inatel-residencias-artisticas/" }
+    { title: "ART'INATEL — Residências Artísticas", org: "Fundação INATEL", desc: "Programa de residências artísticas em parceria com municípios e estruturas locais.", deadline: "annual", tags: ["INATEL", "Residência"], url: "https://www.inatel.pt/pt/servicos/inatel-cultura/art-inatel-residencias-artisticas/" },
+    { title: "PARTIS & Art for Change", org: "Fundação Gulbenkian + Fundação 'la Caixa'", desc: "Apoio a organizações que usam práticas artísticas (visuais, audiovisuais e/ou performativas) como ferramenta de inclusão social. 1ª edição apoiou 16 projetos com €1.5M.", deadline: "annual", tags: ["Inclusão", "Comunidade"], url: "https://gulbenkian.pt/apoios-lista/partis-art-for-change/" },
+    { title: "Fundação EDP — Apoios e Parcerias", org: "Fundação EDP", desc: "Patrocínios e apoios institucionais à cultura. Principal mecenas das artes em Portugal — apoia Companhia Nacional de Bailado, Serralves, e outras estruturas de referência.", deadline: "rolling", tags: ["Mecenato", "Multidisciplinar"], url: "https://www.fundacaoedp.pt/pt/form/program-of-sponsorships" },
+    { title: "Fundação Oriente — Apoios à Cultura", org: "Fundação Oriente", desc: "Apoios em cultura, educação e artes com foco nas relações entre Portugal, Macau, China e países do Oriente.", deadline: "annual", tags: ["Oriente", "Multidisciplinar"], url: "https://www.foriente.pt/" },
+    { title: "AMOSTRA — Festival das Artes Performativas para Público Jovem", org: "Companhia Caótica", desc: "Open call para projetos em desenvolvimento de artes performativas para públicos jovens. Seleciona 4 projetos com preferência para artistas/estruturas do Centro.", deadline: "annual", tags: ["Festival", "Jovem"], url: "https://www.coffeepaste.com/en/classificado/open-call-amostra-festival-das-artes-performativas-para-publico-jovem-or-2026/" },
+    { title: "Festival Aqui ao Lado 2026", org: "Festival Aqui ao Lado", desc: "Open call em música, artes performativas, workshops, animação e artes visuais. Festival decorre 3–5 julho 2026.", deadline: "2026-03-20", tags: ["Festival", "Multidisciplinar"], url: "https://www.coffeepaste.com/classificado/open-call-or-festival-aqui-ao-lado-2026/" },
+    { title: "Palco Experimental", org: "Partícula Extravagante (Rita Vilhena)", desc: "Plataforma de auto-representação em dança contemporânea, performance e video art. 6 sessões em Lisboa, Palmela e Castelo Branco.", deadline: "annual", tags: ["Dança", "Performance"], url: "https://www.coffeepaste.com/classificado/open-call-or-palco-experimental-particula-no-acucar/" },
+    { title: "Matéria Viva — Formação em Artes Performativas", org: "CEAP", desc: "Programa de formação e capacitação em artes performativas: práticas, políticas e ecologias do fazer.", deadline: "annual", tags: ["Formação", "Performativas"], url: "https://ceapfmh.wordpress.com/" }
   ],
 
   municipal: [
     { title: "Gaivotas no Pátio 2026", org: "CM Lisboa — Polo Cultural Gaivotas | Boavista", desc: "Programa de verão com convocatória pública para propostas em circo, dança, música e teatro.", deadline: "annual", tags: ["Lisboa", "Performativas"], url: "https://informacao.lisboa.pt/en/schedule/municipal/seagulls-in-the-patio-2026" },
     { title: "Apoios e Financiamentos — Polo Cultural Gaivotas", org: "CM Lisboa", desc: "Diretório de apoios municipais e parcerias com outras entidades para o setor cultural lisboeta.", deadline: "rolling", tags: ["Lisboa", "Recurso"], url: "http://www.cm-lisboa.pt/polo-cultural-gaivotas-boavista/apoios-e-financiamentos/outras-entidades" },
-    { title: "Apoios do Município de Lisboa", org: "CM Lisboa", desc: "Portal central de atribuição de apoios pelo Município de Lisboa (cultura, social, etc.).", deadline: "rolling", tags: ["Lisboa"], url: "https://informacoeseservicos.lisboa.pt/servicos/detalhe/atribuicao-de-apoios-pelo-municipio-de-lisboa" },
+    { title: "RAAML — Apoios do Município de Lisboa", org: "CM Lisboa", desc: "Regulamento de Atribuição de Apoios pelo Município de Lisboa (2008). Apoios financeiros e não-financeiros a associações, IPSS, cooperativas e fundações sem fins lucrativos do setor cultural, social, desportivo e recreativo.", deadline: "rolling", tags: ["Lisboa", "RAAML", "Associativo"], url: "https://informacoeseservicos.lisboa.pt/servicos/detalhe/atribuicao-de-apoios-pelo-municipio-de-lisboa" },
+    { title: "LAAR — Lisboa Acolhe Artistas em Residência", org: "CM Lisboa", desc: "Plataforma digital com chamadas de residências artísticas em Lisboa. Agrega arquitetura, arte urbana, cinema, dança, design, fotografia, música e teatro. Filtros por área e disponibilidade.", deadline: "rolling", tags: ["Lisboa", "Residências", "Recurso"], url: "https://laar.cm-lisboa.pt/" },
     { title: "Criatório 2026", org: "CM Porto / Ágora", desc: "€495.000 totais: 17 bolsas de €15.000 (Criação e Investigação) + 12 bolsas de €20.000 (Espaços de Programação). Artes visuais, performativas, música.", deadline: "2026-03-30", tags: ["Porto", "Bolsa", "Performativas"], url: "https://plaka.porto.pt/pt/criatorio/" },
     { title: "Cultura em Expansão 2026", org: "CM Porto / Ágora", desc: "€245.000 para 18 novas criações em três modalidades de cocriação comunitária (anual €15k / bienal €30k) e criação participada (€8k).", deadline: "2026-03-27", tags: ["Porto", "Comunitário"], url: "https://www.agoraporto.pt/noticias/cultura-em-expansao-lanca-convocatoria-para-projetos-a-integrar-programa-de-apoios-em-2026" },
     { title: "Programa de Incentivo e Apoio às Artes Performativas", org: "CM Sintra", desc: "Candidaturas ao programa municipal de apoio às artes performativas no concelho de Sintra.", deadline: "annual", tags: ["Sintra", "Performativas"], url: "https://cm-sintra.pt/atualidade/cultura/aviso-candidaturas-ao-programa-de-incentivo-e-apoio-as-artes-performativas-no-concelho-de-sintra" },
@@ -220,7 +282,15 @@ const CALLS = {
     { title: "DancEUA Artist-in-Residence", org: "Vitlycke-CPA (Suécia)", desc: "Duas residências por ano (2025-2027) para artistas emergentes da Ucrânia, Suécia, Croácia, Roménia e Hungria.", deadline: "annual", tags: ["Suécia", "Dança"], url: "https://vitlycke.org/open-calls" },
     { title: "Mediterranean Dance Center — Programa 2026", org: "MPC (Svetvinčent, Croácia)", desc: "Dança contemporânea, teatro físico, artes performativas e formas híbridas ligadas ao movimento.", deadline: "annual", tags: ["Croácia", "Dança"], url: "https://on-the-move.org/disciplines/performing-arts" },
     { title: "Res Artis — Open Calls", org: "Res Artis (rede global)", desc: "Diretório global de residências artísticas com open calls atualizadas.", deadline: "rolling", tags: ["Recurso", "Global"], url: "https://resartis.org/open-calls/" },
-    { title: "TransArtists", org: "DutchCulture | TransArtists", desc: "Plataforma com mais de 1.500 residências mapeadas em todo o mundo.", deadline: "rolling", tags: ["Recurso", "Global"], url: "https://www.transartists.org/en" }
+    { title: "TransArtists", org: "DutchCulture | TransArtists", desc: "Plataforma com mais de 1.500 residências mapeadas em todo o mundo.", deadline: "rolling", tags: ["Recurso", "Global"], url: "https://www.transartists.org/en" },
+    { title: "O Espaço do Tempo — Bolsas de Criação", org: "O Espaço do Tempo + 'la Caixa' + Banco BPI", desc: "4 bolsas de €25.000 em dança, teatro, performance e cruzamento interdisciplinar. Estreia absoluta no #ETFEST em novembro 2026.", deadline: "annual", tags: ["Portugal", "Montemor", "Performativas"], url: "https://www.oespacodotempo.pt/pt/noticias/open-call-62" },
+    { title: "Espaço Alkantara — Residências", org: "Alkantara (Lisboa)", desc: "Residências artísticas em performing arts — por open call ou convite. Inclui showings, encontros e workshops.", deadline: "annual", tags: ["Portugal", "Lisboa", "Performativas"], url: "https://alkantara.pt/en/espaco-alkantara/" },
+    { title: "Artists' Shelter — Sekoia (Porto)", org: "Sekoia Artes Performativas / Fundação Manuel António da Mota", desc: "Residências para investigação, ensaios e criação no centro do Porto. Múltiplas semanas ao longo do ano.", deadline: "annual", tags: ["Portugal", "Porto"], url: "https://www.coffeepaste.com/en/classificado/artistsand39shelter-open-call-2026/" },
+    { title: "MOAGEM — Residências Artísticas", org: "Câmara Municipal do Porto", desc: "Programa de residências de apoio à criação e investigação artística no Porto. Open call em fases.", deadline: "annual", tags: ["Portugal", "Porto"], url: "https://pportodosmuseus.pt/2026/04/28/open-call-2026-1a-fase-moagem-residencias-artisticas-apoio-a-criacao-e-investigacao/" },
+    { title: "TEP — Residências Artísticas 2026", org: "Teatro Experimental do Porto", desc: "Programa de residências artísticas em artes performativas no TEP.", deadline: "annual", tags: ["Portugal", "Porto", "Teatro"], url: "https://www.coffeepaste.com/en/classificado/open-call-2026-residencias-artisticas-tep/" },
+    { title: "PRISMA Artist Residency", org: "Prisma Estúdio (Lisboa)", desc: "Programa de residências artísticas em Lisboa.", deadline: "annual", tags: ["Portugal", "Lisboa"], url: "https://prismalx.com/artist-in-residence-open-call-2026/" },
+    { title: "Buinho Residency Program", org: "Buinho (Messejana, Alentejo)", desc: "Residência rural no Alentejo, aberta a múltiplas disciplinas. Forte componente comunitária.", deadline: "annual", tags: ["Portugal", "Alentejo", "Rural"], url: "https://artistcommunities.org/directory/open-calls/buinho-residency-program-new-call-2026-portugal" },
+    { title: "HANGAR — Residências Artísticas", org: "HANGAR Artistic Research Center (Lisboa)", desc: "Centro de investigação artística com residências contínuas em Lisboa.", deadline: "rolling", tags: ["Portugal", "Lisboa"], url: "https://hangar.com.pt/residencies/" }
   ]
 };
 
@@ -234,13 +304,20 @@ const SECTIONS = [
 const SOURCES = [
   ["DGARTES", "https://www.dgartes.gov.pt/pt/vnode/1"],
   ["Fundação Gulbenkian", "https://gulbenkian.pt/apoios-lista/"],
+  ["PARTIS & Art for Change", "https://gulbenkian.pt/apoios-lista/partis-art-for-change/"],
   ["Fundação GDA", "https://www.fundacaogda.pt/concursos-2026-consulte-as-datas/"],
   ["Fundação INATEL", "https://www.inatel.pt/pt/servicos/inatel-cultura/concursos-e-premios/"],
+  ["Fundação EDP", "https://www.fundacaoedp.pt/pt/form/program-of-sponsorships"],
+  ["Fundação Oriente", "https://www.foriente.pt/"],
   ["Culturgest", "https://www.culturgest.pt/"],
   ["Caixa Cultura (CGD)", "https://www.cgd.pt/Institucional/Caixa-Cultura/Pages/Caixa-Cultura.aspx"],
-  ["CM Lisboa", "http://www.cm-lisboa.pt/polo-cultural-gaivotas-boavista/apoios-e-financiamentos/outras-entidades"],
+  ["CM Lisboa — RAAML", "https://informacoeseservicos.lisboa.pt/servicos/detalhe/atribuicao-de-apoios-pelo-municipio-de-lisboa"],
+  ["LAAR Lisboa", "https://laar.cm-lisboa.pt/"],
   ["CM Porto — Criatório", "https://plaka.porto.pt/pt/criatorio/"],
   ["CM Sintra", "https://cm-sintra.pt/institucional/formularios/formularios-cultura"],
+  ["O Espaço do Tempo", "https://www.oespacodotempo.pt/"],
+  ["Alkantara", "https://alkantara.pt/"],
+  ["Coffeepaste", "https://www.coffeepaste.com/"],
   ["Creative Europe", "https://culture.ec.europa.eu/funding/calls"],
   ["Culture Moves Europe", "https://culture.ec.europa.eu/culture-moves-europe"],
   ["Perform Europe", "https://creativesunite.eu/synm/program.php?id=2625"],
@@ -261,6 +338,11 @@ const state = {
 function todayISO() {
   const d = new Date();
   return d.toISOString().slice(0,10);
+}
+function isoPlusDay(iso) {
+  const d = new Date(iso);
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
 }
 function deadlineMeta(deadline) {
   if (deadline === "rolling") return { kind: "rolling", display: { day: "Rolling", monthYear: "Sem prazo", left: "" }, sortKey: 99999, past: false, cls: "rolling" };
@@ -286,17 +368,27 @@ function formatDate(iso) {
   const [y,m,d] = iso.split("-");
   return `${parseInt(d,10)} ${months[parseInt(m,10)-1]} ${y}`;
 }
+function gcalUrl(c) {
+  if (c.deadline === "rolling" || c.deadline === "annual") return null;
+  const start = c.deadline.replace(/-/g, "");
+  const end = isoPlusDay(c.deadline).replace(/-/g, "");
+  const text = `Prazo: ${c.title}`;
+  const details = `${c.org}\n\n${c.desc}\n\nLink: ${c.url}`;
+  const params = new URLSearchParams({ action: "TEMPLATE", text, dates: `${start}/${end}`, details, location: c.url });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
 
 // ---------- RENDER ----------
 function renderTabs() {
   const tabsEl = document.getElementById("tabs");
   tabsEl.innerHTML = SECTIONS.map(s => {
     const n = CALLS[s.id].length;
-    return `<button data-tab="${s.id}" class="${state.tab===s.id?"active":""}">${s.label}<span class="count">${n}</span></button>`;
+    return `<button data-tab="${s.id}" class="${state.tab===s.id?"active":""}"><span class="swatch"></span>${s.label}<span class="count">${n}</span></button>`;
   }).join("");
   tabsEl.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
     state.tab = b.dataset.tab;
     localStorage.setItem("oc_tab", state.tab);
+    document.body.setAttribute("data-tab", state.tab);
     renderTabs();
     renderSection();
   }));
@@ -316,7 +408,9 @@ function renderSection() {
     content.innerHTML = `<div class="empty">Nada para mostrar nesta secção.</div>`;
     return;
   }
-  content.innerHTML = filtered.map(c => `
+  content.innerHTML = filtered.map(c => {
+    const gcal = gcalUrl(c);
+    return `
     <article class="entry ${c.meta.past ? "past" : ""}">
       <div class="when ${c.meta.cls}">
         <span class="day">${escapeHtml(c.meta.display.day)}</span>
@@ -329,17 +423,21 @@ function renderSection() {
         <p class="desc">${escapeHtml(c.desc)}</p>
         <div class="meta">
           <div class="tags">${(c.tags||[]).map(t => `<span>${escapeHtml(t)}</span>`).join("")}</div>
-          <a class="link" href="${escapeAttr(c.url)}" target="_blank" rel="noopener">Ver no site oficial →</a>
+          <div class="actions">
+            <a class="link-primary" href="${escapeAttr(c.url)}" target="_blank" rel="noopener">Ver no site oficial</a>
+            ${gcal ? `<a class="link-cal" href="${escapeAttr(gcal)}" target="_blank" rel="noopener" title="Adicionar prazo ao Google Calendar">📅 Calendário</a>` : ""}
+          </div>
         </div>
       </div>
     </article>
-  `).join("");
+  `;}).join("");
 }
 
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
 function escapeAttr(s) { return escapeHtml(s); }
 
 // ---------- INIT ----------
+document.body.setAttribute("data-tab", state.tab);
 document.getElementById("updatedAt").textContent = formatDate(UPDATED_AT);
 
 const hidePastEl = document.getElementById("hidePast");
@@ -361,6 +459,18 @@ sortEl.addEventListener("change", () => {
 document.getElementById("sourcesList").innerHTML = SOURCES.map(([name, url]) =>
   `<a href="${escapeAttr(url)}" target="_blank" rel="noopener">${escapeHtml(name)}</a>`
 ).join("");
+
+// Newsletter button — mailto link
+const newsletterEl = document.getElementById("newsletterLink");
+if (NEWSLETTER_URL) {
+  newsletterEl.href = NEWSLETTER_URL;
+  newsletterEl.title = `Enviar email para ${NEWSLETTER_EMAIL}`;
+} else {
+  newsletterEl.href = "#";
+  newsletterEl.style.opacity = "0.5";
+  newsletterEl.style.cursor = "default";
+  newsletterEl.addEventListener("click", e => e.preventDefault());
+}
 
 renderTabs();
 renderSection();
